@@ -55,6 +55,20 @@ init :: proc() {
         },
         size = PIPE_SIZE,
     }
+    game.windpipeTop = {
+        HitCircle{
+            pos = game.windpipe[0].pos + {game.windpipe[0].size.x/2, 0},
+            r = game.windpipe[0].size.x/2,
+        },
+        HitCircle{
+            pos = game.windpipe[1].pos + {game.windpipe[1].size.x/2, 0},
+            r = game.windpipe[1].size.x/2,
+        },
+    }
+    game.foodpipeTop = HitCircle{
+        pos = game.foodpipe.pos + {game.foodpipe.size.x/2, 0},
+        r = game.foodpipe.size.x/2,
+    }
 
     game.camera.offset = Vec2{
         WORLD_WIDTH/2,
@@ -86,6 +100,9 @@ draw :: proc() {
         rl.DrawRectangleV(game.windpipe[0].pos, game.windpipe[0].size, rl.BLUE)
         rl.DrawRectangleV(game.windpipe[1].pos, game.windpipe[1].size, rl.BLUE)
         rl.DrawRectangleV(game.foodpipe.pos, game.foodpipe.size, rl.RED)
+        rl.DrawCircleV(game.windpipeTop[0].pos, game.windpipeTop[0].r, rl.BLUE)
+        rl.DrawCircleV(game.windpipeTop[1].pos, game.windpipeTop[1].r, rl.BLUE)
+        rl.DrawCircleV(game.foodpipeTop.pos, game.foodpipeTop.r, rl.RED)
 
 
     }
