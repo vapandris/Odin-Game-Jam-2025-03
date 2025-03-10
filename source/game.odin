@@ -31,19 +31,19 @@ init :: proc() {
     game = new(Game)
     game^ = Game{}
 
-    PIPE_SIZE :: Vec2{64, WORLD_HEIGHT*0.5}
+    PIPE_SIZE :: Vec2{64, WORLD_HEIGHT*0.35}
     game.windpipe = {
         HitBox {
             pos = {
                 WORLD_WIDTH*1/3 - PIPE_SIZE.x/2,
-                WORLD_HEIGHT * 0.5,
+                WORLD_HEIGHT - PIPE_SIZE.y,
             },
             size = PIPE_SIZE,
         },
         HitBox {
             pos = {
                 WORLD_WIDTH*1/2 - PIPE_SIZE.x/2,
-                WORLD_HEIGHT * 0.5,
+                WORLD_HEIGHT - PIPE_SIZE.y,
             },
             size = PIPE_SIZE,
         },
@@ -51,7 +51,7 @@ init :: proc() {
     game.foodpipe = HitBox {
         pos = {
             WORLD_WIDTH*2/3 - PIPE_SIZE.x/2,
-            WORLD_HEIGHT * 0.5,
+            WORLD_HEIGHT - PIPE_SIZE.y,
         },
         size = PIPE_SIZE,
     }
