@@ -1,6 +1,6 @@
 package game
 
-resolve_tilecollision :: proc(hitBox: ^HitBox, rect: Vec4) {
+resolve_tilecollision :: proc(hitBox: ^HitCircle, rect: Vec4) {
     closest_point: Vec2
     closest_point.x = clamp(rect.x, rect.x + rect[2], hitBox.pos.x)
     closest_point.y = clamp(rect.y, rect.y + rect[3], hitBox.pos.y)

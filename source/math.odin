@@ -3,9 +3,14 @@ package game
 Vec2 :: [2]f32
 Vec4 :: [4]f32
 
-HitBox :: struct {
+HitCircle :: struct {
     pos: Vec2,
     r: f32, //radius
+}
+
+HitBox :: struct {
+    pos: Vec2,
+    size: Vec2,
 }
 
 // Vec2:
