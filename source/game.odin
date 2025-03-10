@@ -71,12 +71,12 @@ init :: proc() {
     }
 
     game.camera.offset = Vec2{
-        WORLD_WIDTH/2,
-        WORLD_HEIGHT/2,
-    }
-    game.camera.target = Vec2{
         WINDOW_WIDTH/2,
         WINDOW_HEIGHT/2,
+    }
+    game.camera.target = Vec2{
+        WORLD_WIDTH/2,
+        WORLD_HEIGHT/2,
     }
     game.camera.zoom = 1
 }
