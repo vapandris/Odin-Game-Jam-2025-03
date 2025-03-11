@@ -32,6 +32,7 @@ init :: proc() {
     game^ = Game{}
 
     PIPE_SIZE :: Vec2{64, WORLD_HEIGHT*0.35}
+    EPIGLOTTIS_R :: 48
     game.windpipe = {
         HitBox {
             pos = {
@@ -70,6 +71,16 @@ init :: proc() {
         r = game.foodpipe.size.x/2,
     }
 
+    for &e, i in game.epiglottis {
+        e.r = EPIGLOTTIS_R
+        if i == 0 {
+            e.pos = game.windpipeTop[0].pos - {0, game.windpipeTop[0].r}
+        } else {
+            prev := &game.epiglottis[i-1]
+            e.pos = prev.pos + {EPIGLOTTIS_R, 0}
+        }
+    }
+
     game.camera.offset = Vec2{
         WINDOW_WIDTH/2,
         WINDOW_HEIGHT/2,
@@ -91,7 +102,7 @@ update :: proc() {
 
 draw :: proc() {
     rl.BeginDrawing()
-    rl.ClearBackground(rl.BLACK)
+    rl.ClearBackground(rl.DARKGRAY)
 
     {
         rl.BeginMode2D(game.camera)
@@ -103,8 +114,9 @@ draw :: proc() {
         rl.DrawCircleV(game.windpipeTop[0].pos, game.windpipeTop[0].r, rl.BLUE)
         rl.DrawCircleV(game.windpipeTop[1].pos, game.windpipeTop[1].r, rl.BLUE)
         rl.DrawCircleV(game.foodpipeTop.pos, game.foodpipeTop.r, rl.RED)
-
-
+        for e in game.epiglottis {
+            rl.DrawCircleV(e.pos, e.r, rl.ORANGE)
+        }
     }
 
     rl.EndDrawing()
