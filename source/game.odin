@@ -13,6 +13,8 @@ Game :: struct {
 
     camera: rl.Camera2D,
 }
+DISTANCE_BETWEEN_EPIGLOTTIS_CIRCLES :: 48.0
+
 WINDOW_WIDTH  :: 1280.0
 WINDOW_HEIGHT :: 720.0
 
@@ -32,7 +34,6 @@ init :: proc() {
     game^ = Game{}
 
     PIPE_SIZE :: Vec2{64, WORLD_HEIGHT*0.35}
-    EPIGLOTTIS_R :: 48
     game.windpipe = {
         HitBox {
             pos = {
@@ -72,12 +73,12 @@ init :: proc() {
     }
 
     for &e, i in game.epiglottis {
-        e.r = EPIGLOTTIS_R
+        e.r = DISTANCE_BETWEEN_EPIGLOTTIS_CIRCLES
         if i == 0 {
             e.pos = game.windpipeTop[0].pos - {0, game.windpipeTop[0].r}
         } else {
             prev := &game.epiglottis[i-1]
-            e.pos = prev.pos + {EPIGLOTTIS_R, 0}
+            e.pos = prev.pos + {DISTANCE_BETWEEN_EPIGLOTTIS_CIRCLES, 0}
         }
     }
 
@@ -95,6 +96,28 @@ init :: proc() {
 update :: proc() {
     assert(rl.GetScreenWidth() == WINDOW_WIDTH)
     assert(rl.GetScreenHeight() == WINDOW_HEIGHT)
+
+    if rl.IsKeyDown(.SPACE) {
+        for &e, i in game.epiglottis {
+            e.r = DISTANCE_BETWEEN_EPIGLOTTIS_CIRCLES
+            if i == 0 {
+                e.pos = game.windpipeTop[0].pos - {0, game.windpipeTop[0].r}
+            } else {
+                prev := &game.epiglottis[i-1]
+                e.pos = prev.pos - {0, DISTANCE_BETWEEN_EPIGLOTTIS_CIRCLES}
+            }
+        }
+    } else {
+        for &e, i in game.epiglottis {
+            e.r = DISTANCE_BETWEEN_EPIGLOTTIS_CIRCLES
+            if i == 0 {
+                e.pos = game.windpipeTop[0].pos - {0, game.windpipeTop[0].r}
+            } else {
+                prev := &game.epiglottis[i-1]
+                e.pos = prev.pos + {DISTANCE_BETWEEN_EPIGLOTTIS_CIRCLES, 0}
+            }
+        }
+    }
 
     // Anything allocated using temp allocator is invalid after this.
     free_all(context.temp_allocator)
